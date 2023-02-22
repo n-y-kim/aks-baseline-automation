@@ -145,6 +145,12 @@ jobs:
       #   run: |
       #     cmdOut=$(kubectl get namespaces ${{ inputs.NAMESPACE }} -o json | jq -r '.status.phase')
       #     if [ "$cmdOut" != 'Active' ]; then kubectl create namespace ${{ inputs.NAMESPACE }}; fi
+      - name: Azure Login 2nd for deploying verification
+        uses: Azure/login@v1.4.3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy app to AKS
         uses: azure/k8s-deploy@v1.5
