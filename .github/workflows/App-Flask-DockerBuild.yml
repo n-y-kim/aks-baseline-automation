@@ -133,11 +133,18 @@ jobs:
           sudo mv bin/linux_amd64/kubelogin /usr/bin
           kubelogin convert-kubeconfig -l azurecli
 
-      - name: Create the namespace if it does not exist
-        if: ${{ inputs.NAMESPACE }} != 'default'
-        run: |
-          cmdOut=$(kubectl get namespaces ${{ inputs.NAMESPACE }} -o json | jq -r '.status.phase')
-          if [ "$cmdOut" != 'Active' ]; then kubectl create namespace ${{ inputs.NAMESPACE }}; fi
+      # - name: Create the namespace if it does not exist
+
+      #   uses: Azure/login@v1.4.3
+      #   with:
+      #     client-id: ${{ secrets.AZURE_CLIENT_ID }}
+      #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+      #     subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          
+      #   if: ${{ inputs.NAMESPACE }} != 'default'
+      #   run: |
+      #     cmdOut=$(kubectl get namespaces ${{ inputs.NAMESPACE }} -o json | jq -r '.status.phase')
+      #     if [ "$cmdOut" != 'Active' ]; then kubectl create namespace ${{ inputs.NAMESPACE }}; fi
 
       - name: Deploy app to AKS
         uses: azure/k8s-deploy@v1.5
